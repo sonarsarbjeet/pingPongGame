@@ -11,10 +11,7 @@ var spunks = {x1: 550,x2: 550,socket1: null,socket2: null,roomNumber: null,};
 io.on("connection", (socket) => {   
   console.log('client connected ',socket.id)
 let roomIndex;
-let room=socket.handshake.query.room;
-  app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+let room=socket.handshake.query.room
 roomIndex = rooms.findIndex((p) => p.roomNumber === room);
 if (roomIndex === -1){
 rooms.push({
@@ -27,10 +24,36 @@ rooms.push({
     rooms[roomIndex].count=2}
         socket.join(rooms[roomIndex].roomNumber);
   io.to(rooms[roomIndex].roomNumber).emit('punks',rooms[roomIndex].spunks)
-  socket.on("punks",(punks)=>{
-    rooms[roomIndex].spunks=punks
+  ////////////////////////////////////////////////////////////////////////////
+  socket.on("punks",(key)=>{console.log(key,socket.id)
+    switch (key) {
+        case 37: // left arrow
+          if (rooms[roomIndex].spunks.socket1 ===socket.id) {
+            if (rooms[roomIndex].spunks.x1 > 0) rooms[roomIndex].spunks.x1 -= 10;
+            break;
+          } else {
+            if (rooms[roomIndex].spunks.x2 > 0) rooms[roomIndex].spunks.x2 -= 10;
+            break;
+          }
+        case 39: // right arrow
+          if (rooms[roomIndex].spunks.socket1 === socket.id) {
+            if (rooms[roomIndex].spunks.x1 < 1100) rooms[roomIndex].spunks.x1 += 10;
+          
+            break;
+          } else {
+            if (rooms[roomIndex].spunks.x2 < 1100) rooms[roomIndex].spunks.x2 += 10;
+          
+            break;
+          }
+        case 32:
+          rooms[roomIndex].ball.p = !this.ball.p;
+        
+          break;
+      }
+
     io.to(rooms[roomIndex].roomNumber).emit('punks',rooms[roomIndex].spunks
         )})
+ ////////////////////////////////////////////////////////////////////////////////       
     socket.on("pause",(pauseball)=>{
       rooms[roomIndex].ball=pauseball
     })
@@ -72,9 +95,7 @@ if(rooms[roomIndex].ball.p){
               else{rooms[roomIndex].spunks.socket2=null}
               rooms[roomIndex].count--;
               let flag=rooms[roomIndex].count
-          //     if(rooms[roomIndex].spunks.socket1==null&&rooms[roomIndex].spunks.socket2==null){
-          //   rooms.pop(roomIndex)
-          // }console.log(rooms)
+   
               if(flag )socket.broadcast.emit('punks',rooms[roomIndex].spunks)
 })});
 server.listen(3001, () => { console.log("listening at 3001"); });
