@@ -24,8 +24,8 @@ rooms.push({
     rooms[roomIndex].count=2}
         socket.join(rooms[roomIndex].roomNumber);
   io.to(rooms[roomIndex].roomNumber).emit('punks',rooms[roomIndex].spunks)
-  ////////////////////////////////////////////////////////////////////////////
-  socket.on("punks",(key)=>{console.log(key,socket.id)
+
+  socket.on("punks",(key)=>{
     switch (key) {
         case 37: // left arrow
           if (rooms[roomIndex].spunks.socket1 ===socket.id) {
@@ -53,7 +53,7 @@ rooms.push({
 
     io.to(rooms[roomIndex].roomNumber).emit('punks',rooms[roomIndex].spunks
         )})
- ////////////////////////////////////////////////////////////////////////////////       
+     
     socket.on("pause",(pauseball)=>{
       rooms[roomIndex].ball=pauseball
     })
