@@ -11,7 +11,10 @@ var spunks = {x1: 550,x2: 550,socket1: null,socket2: null,roomNumber: null,};
 io.on("connection", (socket) => {   
   console.log('client connected ',socket.id)
 let roomIndex;
-let room=socket.handshake.query.room
+let room=socket.handshake.query.room;
+  app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
 roomIndex = rooms.findIndex((p) => p.roomNumber === room);
 if (roomIndex === -1){
 rooms.push({
