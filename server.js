@@ -62,7 +62,7 @@ rooms.push({
     socket.on("pause",(pauseball)=>{
       rooms[roomIndex].ball=pauseball
     })
-  setInterval(() => {
+  var t=setInterval(() => {
 if(rooms[roomIndex].ball.p){
   if(rooms[roomIndex].spunks.socket1!==null&&rooms[roomIndex].spunks.socket2!==null
   ){
@@ -95,7 +95,8 @@ if(rooms[roomIndex].ball.p){
   io.to(rooms[roomIndex].roomNumber).emit('ball',rooms[roomIndex].ball)
       }, 25 );
           socket.on('disconnect',()=>{
-            
+            clearInterval(t);
+            console.log(t)
               console.log('client disconnected',socket.id)
               if(rooms[roomIndex].spunks.socket1==socket.id){rooms[roomIndex].spunks.socket1=null}
               else{rooms[roomIndex].spunks.socket2=null}
