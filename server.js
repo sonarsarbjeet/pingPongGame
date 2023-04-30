@@ -51,7 +51,7 @@ rooms.push({
             break;
           }
         case 32:
-          rooms[roomIndex].ball.p = !this.ball.p;
+          rooms[roomIndex].ball.p = !rooms[roomIndex].ball.p;
         
           break;
       }
@@ -95,7 +95,7 @@ if(rooms[roomIndex].ball.p){
   io.to(rooms[roomIndex].roomNumber).emit('ball',rooms[roomIndex].ball)
       }, 25 );
           socket.on('disconnect',()=>{
-            console.log(rooms)
+            
               console.log('client disconnected',socket.id)
               if(rooms[roomIndex].spunks.socket1==socket.id){rooms[roomIndex].spunks.socket1=null}
               else{rooms[roomIndex].spunks.socket2=null}
@@ -109,7 +109,8 @@ if(rooms[roomIndex].ball.p){
                 rooms[roomIndex].ball.score2=0;
                 rooms[roomIndex].ball.p=true;
               }
-              console.log(rooms)
+              
+
               let flag=rooms[roomIndex].count
               if(flag )socket.broadcast.emit('punks',rooms[roomIndex].spunks)
 })});
