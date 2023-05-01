@@ -96,7 +96,6 @@ if(rooms[roomIndex].ball.p){
       }, 25 );
           socket.on('disconnect',()=>{
             clearInterval(t);
-            console.log(t)
               console.log('client disconnected',socket.id)
               if(rooms[roomIndex].spunks.socket1==socket.id){rooms[roomIndex].spunks.socket1=null}
               else{rooms[roomIndex].spunks.socket2=null}
