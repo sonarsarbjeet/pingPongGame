@@ -59,7 +59,7 @@ io.on("connection", (socket) => {
   socket.join(rooms[roomIndex].roomNumber);
   io.to(rooms[roomIndex].roomNumber).emit("punks", rooms[roomIndex].spunks);
 
-  socket.on("punks", (key, pv) => {console.time("Execution Time");
+  socket.on("punks", (key, pv) => {
     
     switch (key) {
       case 37: // left arrow
@@ -92,7 +92,7 @@ io.on("connection", (socket) => {
         break;
     }
     io.to(rooms[roomIndex].roomNumber).emit("punks", rooms[roomIndex].spunks);
-   console.timeEnd("Execution Time");
+   
   });
 
   socket.on("pause", (pauseball) => {
